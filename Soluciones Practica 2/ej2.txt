@@ -1,0 +1,30 @@
+sem mutex = 1, barrera = 1;
+int contador[4] = ([4]0);
+int cant = 0;
+List<typeT> historial = recibir_historial();
+
+process Control[id = 1 to 4]{
+  int aux;
+  int contadorAux[4] = ([4] 0);
+  while(true){
+    if(cant < N){
+      P(mutex);
+      cant = cant +1;
+      V(mutex)
+      typeT next = historial.next();
+      aux = next.gravedad;
+      contadorAux[aux] = contadorAux[aux] + 1;
+      if aux == 3
+        print('Fallo critico con ID: ' + next.ID);
+    }
+    else{break;}
+    P(barrera);
+    for i = 1 to 4{
+      contador[i] = contadorAux[i];
+    V(barrera);
+  }
+}
+
+  
+  
+  

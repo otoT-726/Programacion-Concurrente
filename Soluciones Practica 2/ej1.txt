@@ -1,0 +1,6 @@
+sem mutex = 1; (mutex = 3 para inciso c)
+process Persona[i = 0 to N]{
+  while(true){ (para el inciso d. Sino se ejecutaría una vez y listo)
+    P(mutex); pasar detector; V(mutex);
+  }
+}

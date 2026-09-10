@@ -1,0 +1,11 @@
+queue cola = recursos; sem mutex = 5;
+
+
+process Sistema[id = 1 to P]{
+  P(mutex);
+  typeT aux = cola.pull();
+  // usar recurso//;
+  cola.push(aux);
+ V(mutex);
+}
+  
