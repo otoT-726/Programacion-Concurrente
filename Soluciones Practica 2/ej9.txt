@@ -1,0 +1,44 @@
+sem mutexM = 1, limiteM = 30, limiteV = 50, mutexV = 1, marcos = 0, vidrios = 0;
+int cantVidrios = 0, cantMarcos = 0;
+Cola marcos, vidrios;
+
+process Carpintero[id: 0..3]{
+  
+  while(true){
+    producir marco;
+    P(limiteM);
+    P(mutexM);
+    push(marcos, marco);
+    V(mutexM);
+    V(marcos)
+  }
+}
+
+process Vidriero{
+  while(true){
+    producir vidrio;
+    P(limiteV);
+    P(mutexV);
+    push(vidrios, vidrio);
+    V(mutexV);
+    V(vidrios);
+  }
+}
+
+process Armador[id: 0..1]{
+  Vidrio vidrioAux;
+  Marco marcoAux;
+  while(true){
+    P(marcos);
+    P(mutexM);
+    pop(marcos, marcoAux);
+    V(mutexM);
+    V(limiteMarcos);
+    P(vidrios);
+    P(mutexV);
+    pop(vidrios, vidrioAux);
+    V(mutexV);
+    V(limiteVidrios);
+    armar_ventana(marcoAux, vidrioAux);
+  }
+}
