@@ -1,0 +1,26 @@
+a) Probablemente tenga que usar un monitor con dos procesos(uno de inicio y uno de fin), con una variable cant, que mantenga la cuenta de cuantos procesos acceden a la BDD.
+
+b)
+Monitor BDD{
+  cond espera;
+  cant = 0;
+
+  procedure iniciarAcceso(){
+    if(cant = 5){
+      espera.wait();
+    }
+    cant++;
+  }
+
+  procedure finAcceso(){
+    if(cant = 5)
+      espera.signal();
+    cant--;
+  }
+}
+
+Process Proceso[id:1..N]{
+  BDD.iniciarAcceso();
+  //accederBDD
+  BDD.finAcceso();
+}

@@ -1,0 +1,40 @@
+a)
+Monitor Puente
+  cond cola;
+  int cant= 0;
+  
+  Procedure entrarPuente ()
+    while ( cant > 0) wait (cola);
+    cant = cant + 1;
+  end;
+    
+  Procedure salirPuente ()
+    cant = cant – 1;
+    signal(cola);
+  end;
+
+End Monitor;
+
+Process Auto [a:1..M]
+  Puente. entrarPuente ();
+  “el auto cruza el puente”
+  Puente. salirPuente();
+End Process;
+
+El programa funciona correctamente. Si cant = 0 significa que no hay autos en el puente; el auto pasa. Al pasar pone cant en 1 hasta que salga, si en este momento llega otro auto (cant > 0), tiene que esperar. En este punto parece inutil el while, ya que cuando el auto que se encuentra en el puente salga, hará un signal que será suficiente para despertar a alguno de los autos que estaban esperando.
+
+b) A chequear. Puede ser incompleto.
+
+Monitor Puente{
+  cond cola;
+
+  procedure cruzarPuente(){
+    //cruzar puente;
+  }
+}
+
+Process Auto[id: 1..M]{
+  Puente.cruzarPuente;
+}
+
+c) No. La solucion inicial no respeta el orden; sin embargo la solucion b pareciera respetar el orden de llegada.
