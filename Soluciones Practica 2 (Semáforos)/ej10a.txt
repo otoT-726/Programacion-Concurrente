@@ -1,4 +1,4 @@
-sem mutex = 1, limiteT = 5, limiteM = 5, limiteC = 7; carga = 0;
+sem mutex = 1, limiteT = 5, limiteM = 5, limiteC = 7, carga = 0;
 sem espera[T + M] = ([T + M] 0);
 Cola C;
 

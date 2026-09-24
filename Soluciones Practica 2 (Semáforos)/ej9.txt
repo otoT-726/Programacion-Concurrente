@@ -1,5 +1,6 @@
-sem mutexM = 1, limiteM = 30, limiteV = 50, mutexV = 1, marcos = 0, vidrios = 0;
-int cantVidrios = 0, cantMarcos = 0;
+sem mutexM = 1, limiteM = 30, marcos = 0;
+sem limiteV = 50, mutexV = 1, vidrios = 0;
+int cantMarcos = 0, cantVidrios = 0;
 Cola marcos, vidrios;
 
 process Carpintero[id: 0..3]{
@@ -33,12 +34,12 @@ process Armador[id: 0..1]{
     P(mutexM);
     pop(marcos, marcoAux);
     V(mutexM);
-    V(limiteMarcos);
+    V(limiteM);
     P(vidrios);
     P(mutexV);
     pop(vidrios, vidrioAux);
     V(mutexV);
-    V(limiteVidrios);
+    V(limiteV);
     armar_ventana(marcoAux, vidrioAux);
   }
 }

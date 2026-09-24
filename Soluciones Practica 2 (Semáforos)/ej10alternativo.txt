@@ -1,0 +1,53 @@
+sem mutex = 1, mutexM = 1, mutexT = 1, limiteT = 5, limiteM = 5, limiteC = 7, carga = 0;
+sem espera[T + M] = ([T + M] 0);
+Cola maices, trigos, avisos;
+
+process CamionTrigo[id: 0..T-1]{
+  P(limiteT);
+  P(limiteC);
+  P(mutex);
+  push(trigos, id);
+  V(mutex);
+  P(mutexA);
+  push(avisos, "trigo");
+  V(mutexA);
+  V(carga);
+  
+  P(espera[id]);
+  V(limiteC);
+  V(limiteT);
+}
+
+process CamionMaiz[id: 0..M-1]{
+  P(limiteM);
+  P(limiteC);
+  P(mutex);
+  push(maices, id);
+  V(mutex);
+  P(mutexA);
+  push(avisos, "maiz");
+  V(mutexA);
+  V(carga);
+  P(espera[id]);
+  V(limiteC);
+  V(limiteM);
+}
+
+process Coordinador{
+  int aux;
+  for(int i = 0 to M + T - 1){
+    P(carga);
+    P(mutexA);
+    pop(avisos, tipo);
+    V(mutexA)
+    if(tipo == 'maiz')
+      P(mutexM);
+      pop(maices, aux);
+      V(mutexM);
+    else{
+      P(mutexT);
+      pop(trigos, aux);
+      V(mutexT);
+    V(espera[aux]);
+  }
+}

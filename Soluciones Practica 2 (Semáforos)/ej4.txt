@@ -1,0 +1,1 @@
+La solución planteada tiene un problema: se ejecuta P(total) antes de P(alta/baja). Esto puede causar que un proceso bloquee un recurso total, pero no pueda acceder a la BD porque su prioridad ya alcanzó el limite de accesos simultaneos. No se maximiza la Concurrencia.

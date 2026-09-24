@@ -1,9 +1,11 @@
-sem mutex = 1, mutexP = 1, avanzar = 0;
-int piezas_producidas = 0, cant_llegados = 0, max_producidos = 0, max_productor = 0;
-
+sem mutex = 1, mutexP = 1, mutexC = 1, avanzar = 0;
+int piezas_producidas = 0, cant_llegados = 0;
+int max_producidos = 0, max_productor = 0;
+int piezas_producidas = 0;
+Cola C;
 
 process Empleado[id = 0..E-1]{
-  cant_producidos = 0;
+  int cant_producidos = 0;
   P(mutex);
   cant_llegados++;
   if(cant_llegados = E){
@@ -14,16 +16,20 @@ process Empleado[id = 0..E-1]{
   P(avanzar);
   P(mutexP)
   while(piezas_producidas < T){
-    cant_producidos++; 
+    piezas_producidas++;
     V(mutexP);
+    cant_producidos++;
     producir pieza;
+    P(mutexC);
+    push(C, pieza);
+    V(mutexC);
     P(mutexP);
   }
   V(mutexP)
   P(mutex); 
   if(cant_producidos > max_producidos){
     max_producidos = cant_producidos; 
-    max_productor = id
+    max_productor = id;
   } 
   V(mutex);
 }
